@@ -1,0 +1,6 @@
+{
+  "appId": "com.strawberrycorner.app",
+  "appName": "Strawberry Corner",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

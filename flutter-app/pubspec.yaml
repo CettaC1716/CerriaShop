@@ -1,0 +1,37 @@
+name: cerria_town_flutter
+description: "Cerria Town — Hybrid Native Flutter UI + Three.js 3D Canvas Interactive Shopping & Lifestyle Town."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  webview_flutter: ^4.10.0
+  supabase_flutter: ^2.8.0
+  url_launcher: ^6.3.1
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/data/stores-data.json
+    - assets/web/
+    - assets/web/js/
+    - assets/web/data/
+    - assets/web/vendor/three/build/
+    - assets/web/vendor/three/examples/jsm/postprocessing/
+    - assets/web/vendor/three/examples/jsm/shaders/
+    - assets/web/vendor/three/examples/jsm/controls/
+    - assets/web/vendor/three/examples/jsm/geometries/
+    - assets/web/vendor/three/examples/jsm/utils/
+    - assets/web/vendor/three/examples/jsm/exporters/
+    - assets/web/vendor/three/examples/jsm/loaders/
+    - assets/web/assets/models/products/

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Strawberry Corner — Café & Little Things</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="sc-menu-closed">
+  <div id="sc-viewport">
+    <!-- Ambient Floating Petals Canvas (2.5D atmospheric layer) -->
+    <canvas id="sc-petals-canvas"></canvas>
+
+    <!-- TOP NAVIGATION BAR -->
+    <header id="sc-topbar">
+      <button id="sc-brand-btn" class="sc-brand-btn" type="button" aria-label="Strawberry Corner Home">
+        <img id="sc-top-brand-img" src="assets/brand-header.png" alt="Strawberry Corner — Café & Little Things" class="sc-brand-img" />
+        <div id="sc-top-brand-custom" class="sc-top-brand-custom" style="display: none;">
+          <span id="sc-top-brand-emoji" class="sc-top-brand-emoji">🌿</span>
+          <div class="sc-top-brand-txt">
+            <strong id="sc-top-brand-title">Botanical Bookshop</strong>
+            <span id="sc-top-brand-sub">BOOKSHOP &amp; APOTHECARY</span>
+          </div>
+        </div>
+      </button>
+
+      <nav class="sc-topnav" aria-label="Main Navigation">
+        <button class="sc-topnav-link active" data-nav="HOME" type="button">HOME</button>
+        <button class="sc-topnav-link" data-nav="MENU_GRID" type="button">MENU</button>
+        <button class="sc-topnav-link" data-nav="SHOP" type="button">SHOP</button>
+        <button class="sc-topnav-link" data-nav="EVENTS" type="button">STORY</button>
+        <button class="sc-topnav-link" data-nav="MENU_GRID" data-filter="SWEETS" type="button">GALLERY</button>
+      </nav>
+
+      <div class="sc-topright">
+        <button id="sc-weather-btn" class="sc-weather-pill" type="button" title="Toggle Weather (Sunny / Rain)">
+          <span id="sc-weather-icon" class="sc-weather-icon">☀️</span>
+          <span id="sc-weather-label" class="sc-weather-label">Sunny</span>
+        </button>
+
+        <button id="sc-sound-btn" class="sc-leaf-btn" type="button" title="Toggle Ambient Sound">
+          <svg viewBox="0 0 28 24" width="22" height="19" fill="none">
+            <path d="M5 19C9 12 16 6 23 5C21 12 15 17 5 19Z" fill="#6D9B76" stroke="#47694E" stroke-width="1.3"/>
+            <path d="M23 19C19 12 12 6 5 5C7 12 13 17 23 19Z" fill="#82B08A" stroke="#47694E" stroke-width="1.3" opacity="0.88"/>
+            <path d="M4 20L24 4" stroke="#47694E" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <div class="sc-stat-pill" id="sc-points-pill" title="Berry Club Points">
+          <span class="sc-stat-berry">🍓</span>
+          <span id="sc-points-val" class="sc-stat-num">1,250</span>
+          <button id="sc-points-add" class="sc-stat-plus" type="button" aria-label="Add Berry Points">+</button>
+        </div>
+
+        <button class="sc-stat-pill sc-likes-pill" id="sc-likes-pill" type="button" title="Saved Favorites">
+          <span class="sc-stat-heart">♥</span>
+          <span id="sc-likes-val" class="sc-stat-num">12</span>
+        </button>
+
+        <button id="sc-gear-btn" class="sc-gear-btn" type="button" title="Corner Preferences" aria-label="Settings">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#4A382E" stroke-width="1.7">
+            <circle cx="12" cy="12" r="3.2"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- INTERACTIVE 3D WEBGL ISOMETRIC BUILDING STAGE -->
+    <div id="sc-building-stage" class="pos-center" role="region" aria-label="Strawberry Corner 3D Boutique Row">
+      <!-- "you are here ↙" indicator shown in MENU_GRID and PRODUCT_3D -->
+      <div id="sc-you-are-here" class="sc-you-are-here">
+        <img src="assets/you-are-here.png" alt="you are here" />
+      </div>
+
+      <div id="sc-building-parallax" class="sc-building-parallax">
+      </div>
+    </div>
+
+    <!-- FLOATING LEFT & RIGHT BUILDING PIN TAGS (Only shown when isMenuOpen === false) -->
+    <div id="sc-floating-tags" class="sc-floating-tags" role="navigation" aria-label="Neighboring Boutique Buildings">
+      <button id="sc-tag-prev" class="sc-floating-tag sc-tag-left" type="button">
+        <span class="sc-tag-arrow">←</span>
+        <span id="sc-tag-prev-icon" class="sc-tag-icon">🕰️</span>
+        <span class="sc-tag-copy">
+          <strong id="sc-tag-prev-name">Clockmaker Studio</strong>
+          <small id="sc-tag-prev-sub">Horology &amp; Fine Art</small>
+        </span>
+      </button>
+
+      <button id="sc-tag-next" class="sc-floating-tag sc-tag-right" type="button">
+        <span id="sc-tag-next-icon" class="sc-tag-icon">🌿</span>
+        <span class="sc-tag-copy">
+          <strong id="sc-tag-next-name">Botanical Bookshop</strong>
+          <small id="sc-tag-next-sub">Books &amp; Apothecary</small>
+        </span>
+        <span class="sc-tag-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- MAIN INTERACTIVE STATE VIEWS -->
+    <main id="sc-main">
+
+      <!-- ========================================================
+           LEFT COLUMN: SHARED FOR HOME / SHOP / MY_BAG / ORDER_PLACED
+           ======================================================== -->
+      <aside id="sc-left-home" class="sc-left-panel active">
+        <div class="sc-hero-heading">
+          <img src="assets/hero-good-things.png" alt="Good Things Happen Here" class="sc-hero-calligraphy" draggable="false" />
+          <p class="sc-hero-sub">COFFEE &nbsp;·&nbsp; STRAWBERRIES &nbsp;·&nbsp; A BRIGHTER DAY</p>
+          <svg class="sc-spoon-doodle" viewBox="0 0 80 14" width="62" height="11" fill="none">
+            <path d="M2 8C18 8 42 7 58 7C64 7 75 4 76 7C77 10 65 11 58 8" stroke="#8C7A6B" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="sc-left-nav" role="navigation" aria-label="Corner Sections">
+          <button class="sc-pill-nav active" data-state="HOME" type="button">
+            <span class="sc-pill-left">
+              <svg viewBox="0 0 20 20" width="15" height="15" fill="currentColor"><path d="M10 2.5L2.5 9h2.2v7.5h4.2v-4.5h2.2v4.5h4.2V9h2.2L10 2.5z"/></svg>
+              <span>HOME</span>
+            </span>
+            <span class="sc-pill-Right">›</span>
+          </button>
+
+          <button class="sc-pill-nav" data-state="MENU_GRID" type="button">
+            <span class="sc-pill-left">
+              <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h9v5a4.5 4.5 0 0 1-9 0V7z"/><path d="M13 8h1.8a2 2 0 0 1 0 4H13"/><path d="M3 16.5h11"/></svg>
+              <span>MENU</span>
+            </span>
+            <span class="sc-pill-Right">›</span>
+          </button>
+
+          <button class="sc-pill-nav" data-state="SHOP" type="button">
+            <span class="sc-pill-left">
+              <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3.5 8.5h13l-1.2 7.5H4.7L3.5 8.5z"/><path d="M7 8.5L9 4m4 4.5L11 4"/></svg>
+              <span>SHOP</span>
+            </span>
+            <span class="sc-pill-Right">›</span>
+          </button>
+
+          <button class="sc-pill-nav" data-state="EVENTS" type="button">
+            <span class="sc-pill-left">
+              <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="4.5" width="13" height="12" rx="2"/><path d="M3.5 8.5h13M7 3v3m6-3v3"/></svg>
+              <span>EVENTS</span>
+            </span>
+            <span class="sc-pill-Right">›</span>
+          </button>
+
+          <button class="sc-pill-nav" data-state="MY_BAG" type="button">
+            <span class="sc-pill-left">
+              <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 7h10l-.8 9.5H5.8L5 7z"/><path d="M7.5 7V5.5a2.5 2.5 0 0 1 5 0V7"/></svg>
+              <span>MY BAG</span>
+            </span>
+            <span class="sc-pill-Right">›</span>
+          </button>
+        </div>
+
+        <div class="sc-pinned-note">
+          <img src="assets/pinned-note-card.png" alt="Small Strawberries, Brighter Days" class="sc-pinned-note-img" draggable="false" />
+        </div>
+      </aside>
+
+      <!-- ========================================================
+           STATE 1: HOME RIGHT CARDS (Season Special, Bestsellers, Goods)
+           ======================================================== -->
+      <section id="sc-view-home" class="sc-state-view active">
+        <div class="sc-home-right">
+          <!-- Season Special Card -->
+          <div class="sc-season-card">
+            <div class="sc-season-dashed">
+              <div class="sc-season-copy">
+                <div class="sc-eyebrow">
+                  <span class="sc-sprig">🌿</span> SEASON SPECIAL
+                </div>
+                <h2 class="sc-season-title">Strawberry<br/>Moments <span class="sc-heart">♥</span></h2>
+                <p class="sc-season-sub">SWEET RECIPES<br/>FOR A BRIGHTER DAY</p>
+                <button class="sc-coral-btn sc-see-menu-btn" data-goto="MENU_GRID" type="button">
+                  SEE MENU <span class="sc-arr">→</span>
+                </button>
+              </div>
+              <img src="assets/season-special-art.png" alt="Strawberry Moments Cake & Drink" class="sc-season-art" draggable="false" />
+            </div>
+          </div>
+
+          <!-- Our Bestsellers Card -->
+          <div class="sc-home-section-card">
+            <div class="sc-sec-header">
+              <div class="sc-sec-label">
+                <span class="sc-leaf-dot">🌱</span> OUR BESTSELLERS
+              </div>
+              <button class="sc-sec-link" data-goto="MENU_GRID" type="button">VIEW ALL →</button>
+            </div>
+            <div class="sc-bestsellers-row" id="sc-home-bestsellers">
+              <!-- Populated by app.js -->
+            </div>
+          </div>
+
+          <!-- Strawberry Goods Card -->
+          <div class="sc-home-section-card sc-goods-card">
+            <div class="sc-sec-header">
+              <div class="sc-sec-label">
+                <span class="sc-basket-dot">🧺</span> STRAWBERRY GOODS
+              </div>
+              <button class="sc-sec-link" data-goto="SHOP" type="button">SHOP NOW →</button>
+            </div>
+            <div class="sc-goods-row" id="sc-home-goods">
+              <button class="sc-good-tile" data-shop-idx="0" type="button" title="Ceramic Mug — $22.00">
+                <img src="assets/shop-mug.png" alt="Ceramic Mug" draggable="false" />
+              </button>
+              <button class="sc-good-tile" data-shop-idx="1" type="button" title="Canvas Tote — $18.00">
+                <img src="assets/shop-tote.png" alt="Canvas Tote" draggable="false" />
+              </button>
+              <button class="sc-good-tile" data-shop-idx="2" type="button" title="House Jam Jar — $8.50">
+                <img src="assets/shop-jam.png" alt="House Jam Jar" draggable="false" />
+              </button>
+              <button class="sc-good-tile" data-shop-idx="3" type="button" title="Recipe Postcards — $9.00">
+                <img src="assets/shop-postcards.png" alt="Recipe Notebook & Postcards" draggable="false" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           LEFT HEADER FOR MENU_GRID & PRODUCT_3D ("Our Menu")
+           ======================================================== -->
+      <aside id="sc-left-menu" class="sc-left-menu-header">
+        <button class="sc-back-corner-btn" data-goto="HOME" type="button">← BACK TO THE CORNER</button>
+        <img src="assets/title-our-menu.png" alt="Our Menu" class="sc-title-our-menu" draggable="false" />
+        <p class="sc-menu-sub">BAKED THIS MORNING &nbsp;·&nbsp; POURED WITH LOVE</p>
+      </aside>
+
+      <!-- ========================================================
+           STATE 2: MENU_GRID (8-Card 4x2 Grid)
+           ======================================================== -->
+      <section id="sc-view-menu-grid" class="sc-state-view">
+        <div class="sc-menu-filter-bar" id="sc-menu-filters">
+          <button class="sc-filter-pill active" data-cat="ALL" type="button">ALL (8)</button>
+          <button class="sc-filter-pill" data-cat="DRINKS" type="button">DRINKS</button>
+          <button class="sc-filter-pill" data-cat="SWEETS" type="button">SWEETS</button>
+          <button class="sc-filter-pill" data-cat="PANTRY" type="button">PANTRY</button>
+        </div>
+
+        <div class="sc-menu-grid" id="sc-menu-grid-cards">
+          <!-- Populated by app.js -->
+        </div>
+      </section>
+
+      <!-- ========================================================
+           STATE 3: PRODUCT_3D (Interactive 2.5D/3D Turntable + Detail Card)
+           ======================================================== -->
+      <section id="sc-view-product-3d" class="sc-state-view">
+        <div class="sc-product-giant-card">
+          <div class="sc-product-upper">
+            <!-- Left 2.5D/3D Interactive Turntable Area -->
+            <div class="sc-turntable-col">
+              <div id="sc-turntable-stage" class="sc-turntable-stage" title="Drag horizontally to turn around">
+                <canvas id="sc-turntable-canvas" width="440" height="350"></canvas>
+              </div>
+              <div class="sc-drag-hint">
+                <span>‹ &nbsp; drag to turn it around &nbsp; ›</span>
+              </div>
+            </div>
+
+            <!-- Right Product Info Column -->
+            <div class="sc-product-info-col">
+              <button class="sc-all-treats-btn" id="sc-back-all-treats" type="button">← ALL TREATS</button>
+              <div class="sc-prod-cat" id="sc-prod-cat">DRINKS</div>
+              <h1 class="sc-prod-title" id="sc-prod-title">Strawberry Latte</h1>
+              <div class="sc-prod-price" id="sc-prod-price">$ 4.50</div>
+              <p class="sc-prod-desc" id="sc-prod-desc">
+                A double shot pulled over steamed milk and our strawberry syrup, finished with a little foam heart.
+              </p>
+
+              <div class="sc-prod-tags" id="sc-prod-tags">
+                <!-- Dashed tags -->
+              </div>
+
+              <div class="sc-prod-sizes" id="sc-prod-sizes">
+                <!-- Size/Variant buttons -->
+              </div>
+
+              <div class="sc-prod-actions">
+                <div class="sc-qty-stepper">
+                  <button id="sc-qty-minus" type="button" aria-label="Decrease quantity">−</button>
+                  <span id="sc-qty-val">1</span>
+                  <button id="sc-qty-plus" type="button" aria-label="Increase quantity">+</button>
+                </div>
+
+                <button id="sc-add-to-bag-btn" class="sc-add-bag-btn" type="button">
+                  <span id="sc-add-bag-text">ADD TO BAG</span>
+                  <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7">
+                    <path d="M5 7h10l-.8 9.5H5.8L5 7z"/><path d="M7.5 7V5.5a2.5 2.5 0 0 1 5 0V7"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="sc-product-divider"></div>
+
+          <!-- Bottom 8-Item Thumbnail Strip -->
+          <div class="sc-thumb-strip" id="sc-thumb-strip">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           STATE 4: EVENTS (Washi-Tape Calendar + Perforated Ticket)
+           ======================================================== -->
+      <section id="sc-view-events" class="sc-state-view">
+        <!-- Left/Center Monthly Calendar Card with Washi Tapes -->
+        <div class="sc-calendar-card">
+          <div class="sc-washi-pink-left"></div>
+          <div class="sc-washi-mint-right"></div>
+
+          <div class="sc-cal-top">
+            <div class="sc-cal-month-bar">
+              <button id="sc-cal-prev" class="sc-cal-arrow" type="button" aria-label="Previous Month">‹</button>
+              <h2 class="sc-cal-title">
+                <span id="sc-cal-month-name" class="sc-cal-month-script">October</span>
+                <span id="sc-cal-year" class="sc-cal-year">2026</span>
+              </h2>
+              <button id="sc-cal-next" class="sc-cal-arrow" type="button" aria-label="Next Month">›</button>
+            </div>
+
+            <div class="sc-cal-right-eyebrow">
+              <span>LITTLE GATHERINGS AT THE CORNER</span>
+              <svg viewBox="0 0 36 18" width="28" height="14" fill="none">
+                <path d="M2 15C12 12 22 7 33 3" stroke="#6E8B64" stroke-width="1.3" stroke-linecap="round"/>
+                <ellipse cx="11" cy="9" rx="3.2" ry="1.6" transform="rotate(-35 11 9)" fill="#7FA074"/>
+                <ellipse cx="20" cy="6" rx="3.2" ry="1.6" transform="rotate(-35 20 6)" fill="#7FA074"/>
+                <ellipse cx="16" cy="12" rx="3.2" ry="1.6" transform="rotate(20 16 12)" fill="#7FA074"/>
+                <ellipse cx="26" cy="9" rx="3.2" ry="1.6" transform="rotate(20 26 9)" fill="#7FA074"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="sc-cal-weekdays">
+            <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span class="wknd">SAT</span><span class="wknd">SUN</span>
+          </div>
+
+          <div class="sc-cal-grid" id="sc-cal-grid">
+            <!-- Populated by app.js -->
+          </div>
+
+          <div class="sc-cal-footer">
+            <span class="sc-cal-footer-dot"></span>
+            <span class="sc-cal-footer-script">Wednesday evenings &amp; Saturdays</span>
+            <span class="sc-cal-footer-sep">·</span>
+            <span class="sc-cal-footer-note">seats are free, the cake is not</span>
+          </div>
+        </div>
+
+        <!-- Right Top "ON THE DAY" Perforated Ticket Card -->
+        <div class="sc-event-ticket-wrap">
+          <div class="sc-ticket-header-bar">
+            <svg viewBox="0 0 28 14" width="20" height="10" fill="none">
+              <path d="M2 12C9 9 17 5 26 2" stroke="#7FA074" stroke-width="1.2" stroke-linecap="round"/>
+              <ellipse cx="9" cy="7" rx="2.4" ry="1.2" transform="rotate(-35 9 7)" fill="#7FA074"/>
+              <ellipse cx="18" cy="4" rx="2.4" ry="1.2" transform="rotate(-35 18 4)" fill="#7FA074"/>
+            </svg>
+            <span>ON THE DAY</span>
+          </div>
+
+          <div class="sc-ticket-card" id="sc-ticket-card">
+            <!-- Left Coral Stub -->
+            <div class="sc-ticket-stub">
+              <div class="sc-stub-dow" id="sc-stub-dow">SUN</div>
+              <div class="sc-stub-day" id="sc-stub-day">18</div>
+              <div class="sc-stub-mon" id="sc-stub-mon">OCT</div>
+            </div>
+
+            <!-- Right Ticket Body -->
+            <div class="sc-ticket-body">
+              <div class="sc-ticket-top-row">
+                <div>
+                  <h3 class="sc-ticket-title" id="sc-ticket-title">Latte Art for Beginners</h3>
+                  <div class="sc-ticket-meta" id="sc-ticket-meta">18:30 &nbsp;·&nbsp; 1½ H &nbsp;·&nbsp; MINA, HEAD BARISTA</div>
+                </div>
+                <img id="sc-ticket-icon" src="assets/ev-icon-latte.png" alt="" class="sc-ticket-illus" draggable="false" />
+              </div>
+
+              <p class="sc-ticket-desc" id="sc-ticket-desc">
+                Learn to pour hearts, tulips and wobbly swans. Milk, cups and plenty of practice shots included.
+              </p>
+
+              <div class="sc-ticket-bottom">
+                <div class="sc-ticket-seats-left" id="sc-ticket-seats">
+                  <strong>5</strong> of 8 seats left
+                </div>
+
+                <div id="sc-ticket-action-area">
+                  <button id="sc-save-seat-btn" class="sc-save-seat-btn" type="button">SAVE A SEAT</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           STATE 5: MY_BAG & ORDER_PLACED (Right Basket / Receipt Modal)
+           ======================================================== -->
+      <section id="sc-view-my-bag" class="sc-state-view">
+        <!-- Active Basket Card (Matches t_52.0.png 1:1) -->
+        <div id="sc-basket-card" class="sc-bag-right-card">
+          <div class="sc-bag-top-row">
+            <div class="sc-bag-top-left">
+              <svg viewBox="0 0 18 18" width="13" height="13" fill="none" stroke="#C84B44" stroke-width="1.6">
+                <path d="M4 6h10l-.7 8.5H4.7L4 6z"/><path d="M6.5 6V4.6a2.5 2.5 0 0 1 5 0V6"/>
+              </svg>
+              <span class="sc-bag-eyebrow">MY BAG</span>
+              <span class="sc-bag-count-pill" id="sc-bag-count-label">4 TREATS</span>
+            </div>
+            <button class="sc-bag-add-more" data-goto="MENU_GRID" type="button">ADD MORE →</button>
+          </div>
+
+          <img src="assets/title-basket.png" alt="Your little basket" class="sc-title-basket" draggable="false" />
+
+          <div class="sc-bag-items-list" id="sc-bag-items-list">
+            <!-- Populated by app.js -->
+          </div>
+
+          <div class="sc-freebie-box">
+            <div class="sc-freebie-copy">
+              <p>A <em>Berry Macaron</em> is tucked into your bag, on us <span class="sc-heart">♥</span></p>
+              <svg class="sc-vine-svg" viewBox="0 0 210 18" width="185" height="16" fill="none">
+                <path d="M4 10C38 4 72 15 106 9C140 3 174 14 206 8" stroke="#6E9468" stroke-width="1.3" stroke-linecap="round"/>
+                <ellipse cx="28" cy="6" rx="4" ry="2" transform="rotate(-25 28 6)" fill="#7FA678"/>
+                <ellipse cx="64" cy="12" rx="4" ry="2" transform="rotate(20 64 12)" fill="#7FA678"/>
+                <ellipse cx="118" cy="6" rx="4" ry="2" transform="rotate(-22 118 6)" fill="#7FA678"/>
+                <ellipse cx="162" cy="12" rx="4" ry="2" transform="rotate(18 162 12)" fill="#7FA678"/>
+                <circle cx="46" cy="9" r="3.2" fill="#E45C50"/>
+                <circle cx="92" cy="11" r="3.4" fill="#E45C50"/>
+                <circle cx="142" cy="8" r="3.2" fill="#E45C50"/>
+                <circle cx="188" cy="9" r="3.2" fill="#E45C50"/>
+              </svg>
+            </div>
+            <svg class="sc-gift-svg" viewBox="0 0 32 32" width="28" height="28" fill="none">
+              <rect x="5" y="13" width="22" height="15" rx="2.5" fill="#FADCD4" stroke="#B85D52" stroke-width="1.3"/>
+              <rect x="3.5" y="9" width="25" height="5" rx="1.8" fill="#F6C6BA" stroke="#B85D52" stroke-width="1.3"/>
+              <path d="M16 9V28M5 19.5H27" stroke="#D95B4D" stroke-width="2"/>
+              <path d="M16 9C13 4 8 5 10 8.5C11.5 10 16 9 16 9ZM16 9C19 4 24 5 22 8.5C20.5 10 16 9 16 9Z" fill="#E46C5E" stroke="#B85D52" stroke-width="1.2"/>
+            </svg>
+          </div>
+
+          <div class="sc-bag-totals">
+            <div class="sc-tot-row">
+              <span>Treats</span>
+              <span id="sc-bag-subtotal">$ 54.60</span>
+            </div>
+            <div class="sc-tot-row sc-tot-italic">
+              <span>Berry Macaron</span>
+              <span>on us</span>
+            </div>
+            <div class="sc-tot-row sc-tot-italic">
+              <span>Little gift · Seed packet</span>
+              <span>free</span>
+            </div>
+          </div>
+
+          <div class="sc-bag-bottom-bar">
+            <div class="sc-bag-total-col">
+              <span class="sc-bag-total-lbl">TOTAL</span>
+              <span class="sc-bag-total-val" id="sc-bag-total">$ 54.60</span>
+            </div>
+
+            <button id="sc-checkout-btn" class="sc-checkout-btn" type="button">
+              <span id="sc-checkout-label">CHECKOUT &nbsp;·&nbsp; READY IN 15 MIN</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Order Placed ("Thank you!") Card (Matches t_58.0.png 1:1) -->
+        <div id="sc-order-placed-card" class="sc-bag-right-card sc-order-card-centered sc-hidden">
+          <div class="sc-order-eyebrow">
+            <svg viewBox="0 0 24 12" width="18" height="9" fill="none">
+              <path d="M2 10C8 8 15 4 22 2" stroke="#7FA074" stroke-width="1.2" stroke-linecap="round"/>
+              <ellipse cx="8" cy="6" rx="2.2" ry="1.1" transform="rotate(-35 8 6)" fill="#7FA074"/>
+              <ellipse cx="16" cy="3.5" rx="2.2" ry="1.1" transform="rotate(-35 16 3.5)" fill="#7FA074"/>
+            </svg>
+            <span>ORDER PLACED</span>
+          </div>
+
+          <img src="assets/title-thank-you.png" alt="Thank you!" class="sc-title-thankyou" draggable="false" />
+          <p class="sc-order-ready-sub">Your treats will be ready at the corner in 15 minutes.</p>
+
+          <div class="sc-receipt-box" id="sc-receipt-box">
+            <div class="sc-receipt-header" id="sc-order-no-sub">ORDER NO. 5314 &nbsp;·&nbsp; OCT 18</div>
+            <div class="sc-receipt-divider"></div>
+            <div id="sc-receipt-items" class="sc-receipt-items">
+              <!-- Populated by app.js -->
+            </div>
+            <div class="sc-receipt-divider"></div>
+            <div class="sc-receipt-paid-row">
+              <span>TOTAL</span>
+              <span id="sc-receipt-paid">$ 54.60</span>
+            </div>
+            <div class="sc-made-love-stamp" id="sc-made-love-stamp">
+              <span>MADE WITH</span>
+              <span>LOVE ♥</span>
+            </div>
+          </div>
+
+          <button id="sc-back-corner-order-btn" class="sc-back-corner-pill-btn" type="button">
+            BACK TO THE CORNER
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           SHOP VIEW (Strawberry Goods Showcase)
+           ======================================================== -->
+      <section id="sc-view-shop" class="sc-state-view">
+        <div class="sc-shop-right-card">
+          <div class="sc-bag-top-row">
+            <button class="sc-bag-continue" data-goto="HOME" type="button">← BACK TO THE CORNER</button>
+            <span class="sc-bag-count-label">4 LITTLE THINGS</span>
+          </div>
+          <h2 class="sc-shop-heading">Strawberry Goods <span class="sc-heart">♥</span></h2>
+          <p class="sc-bag-sub">KEEPSAKES &amp; SMALL-BATCH PANTRY ITEMS</p>
+
+          <div class="sc-shop-grid" id="sc-shop-grid">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FRAMER-MOTION SHARED-ELEMENT MORPH LAYER -->
+    <div id="sc-fm-shared-layer" class="sc-fm-shared-layer" aria-hidden="true"></div>
+
+    <!-- FLOATING BOTTOM BAR -->
+    <footer id="sc-bottombar">
+      <div id="sc-bot-brand-btn" class="sc-bot-left" role="button" tabindex="0" aria-label="Strawberry Corner — Café & Little Things">
+        <img id="sc-bot-berry-img" src="assets/logo-strawberry.png" alt="" class="sc-bot-berry" draggable="false" />
+        <span id="sc-bot-emoji-icon" class="sc-bot-emoji-icon" style="display: none;">🌿</span>
+        <div class="sc-bot-brand-txt">
+          <strong id="sc-bot-brand-title">Strawberry Corner</strong>
+          <span id="sc-bot-brand-sub">CAFÉ &amp; LITTLE THINGS</span>
+        </div>
+      </div>
+
+      <div class="sc-bot-center">
+        <img src="assets/footer-script.png" alt="Coffee, Strawberries, and a kinder day." class="sc-bot-script" draggable="false" />
+      </div>
+
+      <div class="sc-bot-right">
+        <div class="sc-bot-icons">
+          <button class="sc-bot-icon-btn active" data-botnav="HOME" type="button" aria-label="Home">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor"><path d="M10 2.5L2.5 9h2.2v7.5h4.2v-4.5h2.2v4.5h4.2V9h2.2L10 2.5z"/></svg>
+          </button>
+          <button class="sc-bot-icon-btn" data-botnav="MENU_GRID" type="button" aria-label="Menu">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h9v5a4.5 4.5 0 0 1-9 0V7z"/><path d="M13 8h1.8a2 2 0 0 1 0 4H13"/><path d="M3 16.5h11"/></svg>
+          </button>
+          <button class="sc-bot-icon-btn" data-botnav="EVENTS" type="button" aria-label="Events">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="4.5" width="13" height="12" rx="2"/><path d="M3.5 8.5h13M7 3v3m6-3v3"/></svg>
+          </button>
+          <button class="sc-bot-icon-btn sc-bot-bag-btn" data-botnav="MY_BAG" type="button" aria-label="My Bag">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 7h10l-.8 9.5H5.8L5 7z"/><path d="M7.5 7V5.5a2.5 2.5 0 0 1 5 0V7"/></svg>
+            <span id="sc-bot-bag-badge" class="sc-bot-bag-badge">3</span>
+          </button>
+          <button class="sc-bot-icon-btn" data-botnav="SHOP" type="button" aria-label="Profile & Perks">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="7" r="3.2"/><path d="M4.5 16.5c0-2.8 2.5-4.5 5.5-4.5s5.5 1.7 5.5 4.5"/></svg>
+          </button>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Little Toast Notification -->
+    <div id="sc-toast" class="sc-toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

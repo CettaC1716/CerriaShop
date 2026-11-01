@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="id" class="flutter-3d-canvas">
+<head>
+  <script>window.__CERRIA_FLUTTER_3D_CANVAS__ = true;</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#27332c">
+  <title>Cerria — Cerria Town: Interactive Fun Shopping &amp; Lifestyle Town</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cdefs%3E%3ClinearGradient id='cg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FF6B6B'/%3E%3Cstop offset='55%25' stop-color='%23FF8E53'/%3E%3Cstop offset='100%25' stop-color='%23FFB86C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='1' y='1' width='42' height='42' rx='14' fill='url(%23cg)' stroke='rgba(255,255,255,0.55)' stroke-width='1.5'/%3E%3Cpath d='M10 15.5L21 9.5L32 15.5H10Z' fill='%23FFFDF9' opacity='0.95'/%3E%3Cpath d='M11.5 15.5a3.2 3.2 0 0 0 6.4 0a3.2 3.2 0 0 0 6.2 0a3.2 3.2 0 0 0 6.4 0' fill='%23FFFDF9'/%3E%3Cpath d='M26.8 21.2a7.6 7.6 0 1 0 0 9.6' fill='none' stroke='%23FFFDF9' stroke-width='4.4' stroke-linecap='round'/%3E%3Cpath d='M33.5 7.2l1.1 2.7l2.7 1.1l-2.7 1.1l-1.1 2.7l-1.1-2.7l-2.7-1.1l2.7-1.1z' fill='%23FFFDF9'/%3E%3C/svg%3E">
+  <script>
+    // ?ui_only=true or ?mode=unity-ui-overlay (Hybrid Unity WebView): flag the page before first paint so no 3D chrome flashes.
+    {
+      const _sp = new URLSearchParams(location.search);
+      if (_sp.get('mode') === 'flutter-3d-canvas' || _sp.get('flutter_canvas') === 'true' || window.__CERRIA_FLUTTER_3D_CANVAS__) {
+        document.documentElement.classList.add('flutter-3d-canvas');
+      } else if (_sp.get('mode') === 'unity-ui-overlay' || _sp.get('unity_overlay') === 'true' || window.__CERRIA_UNITY_UI_OVERLAY__) {
+        document.documentElement.classList.add('unity-ui-overlay');
+      } else if (_sp.get('ui_only') === 'true') {
+        document.documentElement.classList.add('ui-only');
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="./styles.css?v=135">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/build/three.module.js",
+        "three/addons/": "./vendor/three/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="app">
+    <div id="loading" role="status" aria-live="polite">
+      <div class="loading-card">
+        <div class="loading-brand">
+          <span class="loading-logo" aria-hidden="true">
+            <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 6.5C14 4.2 30 4.2 36 6.5" stroke="#FFFDF9" stroke-opacity="0.42" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M9.5 15.2L20.2 9.2C20.9 8.8 21.7 8.8 22.4 9.2L33.1 15.2H9.5Z" fill="#FFFDF9"/>
+              <path d="M10.5 15.0a3.4 3.2 0 0 0 6.8 0a3.4 3.2 0 0 0 6.8 0a3.4 3.2 0 0 0 6.8 0" fill="#FFFDF9" opacity="0.92"/>
+              <path d="M26.8 22.0C25.2 20.1 22.8 19.1 20.1 19.1C15.4 19.1 11.8 22.5 11.8 27.0C11.8 31.5 15.4 34.9 20.1 34.9C22.9 34.9 25.3 33.8 27.0 31.8" stroke="#FFFDF9" stroke-width="4.5" stroke-linecap="round"/>
+              <path d="M28.2 10.6C29.8 8.2 32.8 7.5 34.4 8.2C33.8 10.2 31.5 11.8 28.2 10.6Z" fill="#FFFDF9" opacity="0.95"/>
+              <path d="M34.8 6.4L35.8 9.0L38.4 10.0L35.8 11.0L34.8 13.6L33.8 11.0L31.2 10.0L33.8 9.0L34.8 6.4Z" fill="#FFFDF9"/>
+              <circle cx="24.2" cy="27.0" r="1.7" fill="#FFFDF9" opacity="0.88"/>
+            </svg>
+          </span>
+          <div class="loading-title-wrap">
+            <strong>Cerria Town</strong>
+            <small>Interactive Fun Shopping &amp; Lifestyle Town</small>
+          </div>
+        </div>
+        <div class="loading-progress-head">
+          <span class="loading-status" id="loading-status">Memuat Cerria Town…</span>
+          <span class="loading-pct" id="loading-pct">0%</span>
+        </div>
+        <div class="loading-bar-track" aria-hidden="true">
+          <div class="loading-bar-fill" id="loading-bar-fill" style="width: 0%;"></div>
+        </div>
+        <p class="loading-sub" id="loading-sub" style="display: none;"></p>
+      </div>
+    </div>
+    <main id="world" aria-label="Interactive Fun Shopping &amp; Lifestyle Town dengan 7 destinasi toko">
+    </main>
+    <div class="vignette"></div>
+
+    <div class="speech" id="speech" aria-hidden="true">Lihat Koleksi</div>
+    <button class="tag" id="tag-left" type="button"><b></b><span></span></button>
+    <button class="tag" id="tag-right" type="button"><b></b><span></span></button>
+
+    <button class="exit-building-btn" id="exit-building" type="button" style="display: none;">← Keluar Toko</button>
+
+    <header id="main-header">
+      <a class="brand" href="#toko1" id="brand-home" aria-label="Cerria Town beranda">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Soft 3D inner top highlight -->
+            <path d="M8 6.5C14 4.2 30 4.2 36 6.5" stroke="#FFFDF9" stroke-opacity="0.42" stroke-width="1.4" stroke-linecap="round"/>
+            <!-- Cozy Town Shop Roof & Scalloped Awning Silhouette -->
+            <path d="M9.5 15.2L20.2 9.2C20.9 8.8 21.7 8.8 22.4 9.2L33.1 15.2H9.5Z" fill="#FFFDF9"/>
+            <path d="M10.5 15.0a3.4 3.2 0 0 0 6.8 0a3.4 3.2 0 0 0 6.8 0a3.4 3.2 0 0 0 6.8 0" fill="#FFFDF9" opacity="0.92"/>
+            <!-- Bold-Rounded 'C' Lettermark -->
+            <path d="M26.8 22.0C25.2 20.1 22.8 19.1 20.1 19.1C15.4 19.1 11.8 22.5 11.8 27.0C11.8 31.5 15.4 34.9 20.1 34.9C22.9 34.9 25.3 33.8 27.0 31.8" stroke="#FFFDF9" stroke-width="4.5" stroke-linecap="round"/>
+            <!-- Cozy Leaf & Sparkle Accent at Top-Right -->
+            <path d="M28.2 10.6C29.8 8.2 32.8 7.5 34.4 8.2C33.8 10.2 31.5 11.8 28.2 10.6Z" fill="#FFFDF9" opacity="0.95"/>
+            <path d="M34.8 6.4L35.8 9.0L38.4 10.0L35.8 11.0L34.8 13.6L33.8 11.0L31.2 10.0L33.8 9.0L34.8 6.4Z" fill="#FFFDF9"/>
+            <circle cx="24.2" cy="27.0" r="1.7" fill="#FFFDF9" opacity="0.88"/>
+          </svg>
+        </span>
+        <span class="brand-copy"><strong class="brand-title">Cerria Town</strong><small>Interactive Fun Shopping &amp; Lifestyle Town</small></span>
+      </a>
+      <nav class="navigation" aria-label="Navigasi toko">
+        <button id="prev" type="button"><span aria-hidden="true">←</span> <span>Prev</span></button>
+        <span id="district-no">1 / 7</span>
+        <button id="next" type="button"><span>Next</span> <span aria-hidden="true">→</span></button>
+      </nav>
+    </header>
+
+    <nav id="tabs" aria-label="Pilih destinasi belanja"></nav>
+
+    <section class="details" id="details-card" aria-live="polite">
+      <div class="model-line">
+        <span id="lab-mark"></span>
+        <div>
+          <span id="lab" class="sr-only"></span>
+          <span id="lab-line"></span>
+          <h1 id="model"></h1>
+        </div>
+        <button class="card-close" id="close-card" type="button" title="Sembunyikan kartu (Esc)" aria-label="Tutup kartu informasi">×</button>
+      </div>
+      <div class="usage">
+        <div>
+          <strong id="tokens"></strong>
+          <span id="tokens-unit"></span>
+        </div>
+        <span class="badge" id="badge"></span>
+        <span id="growth" style="display: none;"></span>
+      </div>
+      <div class="features" id="features"></div>
+      <div class="card-actions">
+        <span class="hint-meta" id="card-meta">Klik tombol Masuk Toko untuk melihat katalog</span>
+        <button class="open-module-btn" id="open-module" type="button">Masuk Toko →</button>
+      </div>
+    </section>
+
+    <button class="card-reopen" id="reopen-card" type="button" aria-label="Tampilkan kembali kartu informasi toko">
+      <span id="reopen-label">Glow Studio</span> · <span class="reopen-cta-full">Tampilkan Info ↑</span><span class="reopen-cta-short">Info ↑</span>
+    </button>
+
+    <div class="bottom-right-stack" id="cozy-hub-root">
+      <!-- Pop-over Settings Panel (All Controls Inside) -->
+      <div class="cozy-settings-popover" id="cozy-settings-popover" role="dialog" aria-label="Pengaturan Kota &amp; Suasana" aria-hidden="true">
+        <div class="cozy-pop-header">
+          <div class="cozy-pop-title">
+            <span>⚙️ Pengaturan Kota &amp; Suasana</span>
+            <small>Cerria Cozy Hub</small>
+          </div>
+          <button type="button" class="cozy-pop-close" id="cozy-settings-close" aria-label="Tutup pengaturan">×</button>
+        </div>
+
+        <div class="cozy-pop-body">
+          <!-- 1. Volume Musik Ambient -->
+          <div class="cozy-pop-section">
+            <div class="cozy-pop-label-row">
+              <span>🎵 Volume Musik Ambient</span>
+              <span class="cozy-pop-val" id="cozy-vol-val">42%</span>
+            </div>
+            <div class="cozy-pop-control-row">
+              <button type="button" class="cozy-mute-btn" id="cozy-mute-btn" title="Mute / Unmute Musik (M)">🔊 Aktif</button>
+              <input id="cozy-music-vol" class="cozy-vol-slider" type="range" min="0" max="1" step="0.02" value="0.42" aria-label="Volume Cozy Music" title="Volume Musik Latar">
+            </div>
+          </div>
+
+          <!-- 2. Penerangan Kota (City Lights) -->
+          <div class="cozy-pop-section">
+            <div class="cozy-pop-label-row">
+              <span>💡 Penerangan Kota (City Lights)</span>
+              <span class="cozy-pop-val" id="city-lights-val">120%</span>
+            </div>
+            <div class="cozy-pop-control-row">
+              <span class="cozy-range-edge">50%</span>
+              <input id="city-lights" class="cozy-pop-range" aria-label="Kecerahan lampu kota" type="range" min="0.5" max="2.5" step="0.05" value="1.2">
+              <span class="cozy-range-edge">250%</span>
+            </div>
+          </div>
+
+          <!-- 3. Kecepatan Waktu & Jalan (Locked at 1x Nyata) -->
+          <div class="cozy-pop-section" style="display: none;">
+            <div class="cozy-pop-label-row">
+              <span>🏃 Kecepatan Waktu &amp; Jalan</span>
+              <button id="speed" type="button" class="cozy-pop-badge-btn" title="Siklus kecepatan (1–4)" aria-keyshortcuts="1 2 3 4">1× Nyata</button>
+            </div>
+            <div class="cozy-speed-Segmented">
+              <button id="pause" type="button" class="cozy-pause-pill" aria-label="Jeda simulasi (Space)" aria-keyshortcuts="Space" title="Jeda / Jalankan Simulasi (Space)">
+                <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor" aria-hidden="true"><rect x="3" y="2.5" width="3.2" height="11" rx="0.8"/><rect x="9.8" y="2.5" width="3.2" height="11" rx="0.8"/></svg>
+                <span>Jeda</span>
+              </button>
+              <button type="button" class="cozy-spd-opt on" data-speed-idx="0">1× Nyata</button>
+            </div>
+          </div>
+
+          <!-- 4. Waktu & Siklus Siang/Malam + Cuaca Visual -->
+          <div class="cozy-pop-section">
+            <div class="cozy-pop-label-row">
+              <span>🌗 Waktu &amp; Siklus Siang/Malam</span>
+              <label class="cozy-toggle-chip" title="Siklus siang dan malam otomatis (D)">
+                <input id="cycle" type="checkbox" checked>
+                <span>Siklus Otomatis</span>
+              </label>
+            </div>
+            <div class="cozy-pop-control-row">
+              <span id="clock" class="cozy-pop-clock">17:30</span>
+              <input id="daytime" class="cozy-pop-range" aria-label="Waktu kota" type="range" min="0" max="23.95" step="0.08" value="10.5">
+            </div>
+            <div class="cozy-speed-Segmented" style="margin-top:8px;" role="group" aria-label="Pilihan cuaca visual kota">
+              <button id="cozy-weather-clear" type="button" class="cozy-spd-opt cozy-weather-opt on" data-weather-mode="clear" data-weather-idx="1" style="flex:1;">☀️ Cerah</button>
+              <button id="cozy-weather-rain" type="button" class="cozy-spd-opt cozy-weather-opt" data-weather-mode="rain" data-weather-idx="4" style="flex:1;">🌧️ Hujan</button>
+              <button id="cozy-weather-fog" type="button" class="cozy-spd-opt cozy-weather-opt" data-weather-mode="fog" data-weather-idx="3" style="flex:1;">🌫️ Kabut</button>
+            </div>
+          </div>
+
+          <!-- 5. Kamera & Macro Shutter -->
+          <div class="cozy-pop-section">
+            <div class="cozy-pop-label-row">
+              <span>📷 Kamera &amp; Macro Shutter</span>
+              <label class="cozy-toggle-chip" title="Lensa makro kedalaman ruang">
+                <input id="dof" type="checkbox" checked>
+                <span>Macro DOF</span>
+              </label>
+            </div>
+            <div class="cozy-pop-control-row">
+              <span class="cozy-range-edge">Shutter</span>
+              <input id="shutter" class="cozy-pop-range" aria-label="Motion blur shutter" type="range" min="0" max="0.45" step="0.01" value="0.18">
+              <span class="cozy-pop-val" id="shutter-val">0.18s</span>
+            </div>
+          </div>
+
+          <!-- 6. Panduan Belanja & Kota Cerria Town -->
+          <div class="cozy-pop-section cozy-pop-guide-section">
+            <button type="button" class="cozy-pop-guide-btn" id="cozy-open-guide-btn">
+              <span aria-hidden="true">📖</span>
+              <span>Buka Panduan Kota</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compact Glassmorphism Smart Widget Bar (Cerria Cozy Hub) -->
+      <div class="cerria-cozy-hub on" id="cozy-audio-pill">
+        <!-- Music Play/Pause + Equalizer + Smooth Marquee -->
+        <button id="cozy-music-toggle" type="button" class="cozy-hub-music-btn" aria-pressed="true" title="Putar / Jeda Radio Cerria Town (M)">
+          <span class="cozy-hub-play-badge" id="cozy-play-badge" aria-hidden="true">▶</span>
+          <span class="cozy-eq" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="cozy-marquee-viewport" aria-label="Judul musik berjalan">
+            <span class="cozy-marquee-track" id="cozy-marquee-track">
+              <span class="cozy-marquee-text" id="cozy-music-label">Sunny Morning Bossa · Gentle Town Stroll — Cerria Town Radio</span>
+              <span class="cozy-marquee-sep" aria-hidden="true">&nbsp;✦&nbsp;</span>
+              <span class="cozy-marquee-text" id="cozy-music-label-dup" aria-hidden="true">Sunny Morning Bossa · Gentle Town Stroll — Cerria Town Radio</span>
+              <span class="cozy-marquee-sep" aria-hidden="true">&nbsp;✦&nbsp;</span>
+            </span>
+          </span>
+        </button>
+
+        <!-- Preserved Sun / Moon / Dusk Mood Pill -->
+        <span class="cozy-mood-tag" id="cozy-mood-tag">☀️ Day</span>
+
+        <span class="cozy-hub-divider" aria-hidden="true"></span>
+
+        <!-- Clock, Short Date, Dynamic Temperature & Weather -->
+        <div class="cozy-hub-weather" id="cozy-hub-weather" title="Waktu, Tanggal &amp; Cuaca Cerria Town">
+          <div class="cozy-weather-top">
+            <strong id="hub-clock">17:30</strong>
+            <span class="cozy-dot">·</span>
+            <span id="hub-date">Sen, 26 Okt</span>
+          </div>
+          <div class="cozy-weather-sub" id="hub-climate">23°C · Senja Hangat</div>
+        </div>
+
+        <span class="cozy-hub-divider" aria-hidden="true"></span>
+
+        <!-- Settings Pop-over Button & Guide Modal Button -->
+        <div class="cozy-hub-actions">
+          <button type="button" class="cozy-hub-btn" id="cozy-settings-btn" aria-expanded="false" aria-controls="cozy-settings-popover" title="Pengaturan Suasana &amp; Simulasi">
+            <span aria-hidden="true">⚙️</span>
+            <span>Pengaturan</span>
+          </button>
+          <button type="button" class="cozy-hub-btn cozy-hub-guide-btn" id="about" title="Panduan Belanja &amp; Kota Cerria Town">
+            <span aria-hidden="true">📖</span>
+            <span>Panduan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="ui-hint" role="status"></div>
+
+    <div class="foot">
+      <span class="demo-note" id="source-note">CERRIA · CERRIA TOWN INTERACTIVE RETAIL &amp; LIFESTYLE HUBS</span>
+    </div>
+  </div>
+
+  <dialog id="info">
+    <button class="dialog-close" id="close-info" type="button" aria-label="Tutup panduan">×</button>
+    <h2>Cerria — Panduan Belanja &amp; Kota Cerria Town</h2>
+    <p><b>Cerria Town</b> (oleh <b>Cerria</b>) adalah kota belanja &amp; gaya hidup interaktif dengan 7 destinasi: Glow Studio (Beauty &amp; Care Boutique), Cozy Bites &amp; Sips (Bakery &amp; Coffee), Atelier &amp; Boutique (Modern Industrial Fashion Store), Circuit &amp; Byte (Tech, Audio &amp; Gaming Flagship), Strawberry Corner (Artisan Café &amp; Bakery), Apex Sport (Pro Athletic Gear &amp; Outdoor Tennis Club), serta Mayor’s Office (Member Card &amp; Customer Service Hub).</p>
+    <p><b>Katalog 360° &amp; Pengalaman Belanja:</b> Klik tombol <b>Masuk Toko →</b> (atau <b>Member &amp; CS →</b> di Mayor’s Office) untuk menampilkan beranda toko, lalu buka <b>Katalog</b> atau <b>Lihat &amp; Pesan Produk →</b> untuk memutar produk 360°, memilih varian/ukuran/jumlah, hingga mencetak Member Card Cerria Town dengan nama Anda sendiri.</p>
+    <p><b>Navigasi Kota:</b> Gunakan tombol <kbd>←</kbd> <kbd>→</kbd> atau klik pil nama toko di sisi kiri/kanan layar untuk berpindah antartoko, serta buka menu <b>⚙️ Pengaturan</b> di sudut kanan bawah untuk mengatur musik, penerangan kota, kecepatan waktu, dan suasana siang/malam.</p>
+  </dialog>
+
+  <script>
+    window.addEventListener('error', e => {
+      fetch('/__client_error?msg=' + encodeURIComponent((e.message || '') + ' @ ' + (e.filename || '') + ':' + (e.lineno || ''))).catch(() => {});
+    });
+    window.addEventListener('unhandledrejection', e => {
+      fetch('/__client_error?rej=' + encodeURIComponent(String(e.reason && e.reason.stack || e.reason))).catch(() => {});
+    });
+  </script>
+  <script type="module" src="./js/main.js?v=135"></script>
+</body>
+</html>
